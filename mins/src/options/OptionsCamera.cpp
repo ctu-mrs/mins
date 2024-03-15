@@ -37,6 +37,11 @@ void mins::OptionsCamera::load(const std::shared_ptr<ov_core::YamlParser> &parse
       enabled = false;
       return;
     }
+
+    // load uav_name
+    auto nh = std::make_shared<ros::NodeHandle>("~");
+    nh->param<std::string>("uav_name", uav_name, "uav1");
+
     parser->parse_external(f, "cam", "enabled", enabled);
     parser->parse_external(f, "cam", "time_analysis", time_analysis, false);
     parser->parse_external(f, "cam", "use_stereo", use_stereo);
@@ -179,6 +184,7 @@ void mins::OptionsCamera::load_i(const std::shared_ptr<ov_core::YamlParser> &par
 
   std::string cam_topic;
   parser->parse_external(f, "cam" + std::to_string(i), "topic", cam_topic);
+  cam_topic = "/" + uav_name + "/" + cam_topic;
   topic.push_back(cam_topic);
 
   if (use_mask_) {

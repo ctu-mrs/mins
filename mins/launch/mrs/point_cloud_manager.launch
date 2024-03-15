@@ -1,0 +1,64 @@
+<launch>
+
+  <!-- defines name of the namespace of the drone -->
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME uav1)" />
+
+  <arg name="RUN_TYPE" default="$(env RUN_TYPE)" />
+
+  <arg name="custom_config" default="" />
+  
+    <!-- will it run using GNU debugger? -->
+  <arg name="DEBUG" default="false" />
+  <arg unless="$(arg DEBUG)" name="launch_prefix_debug" value=""/>
+  <arg     if="$(arg DEBUG)" name="launch_prefix_debug" value="debug_roslaunch"/>
+
+    <!-- will it run as standalone nodelet or using a nodelet manager? -->
+  <arg name="standalone" default="true" />
+  <arg name="manager" default="$(arg UAV_NAME)_example_waypoint_flier_manager" />
+  <arg unless="$(arg standalone)" name="nodelet" value="load"/>
+  <arg     if="$(arg standalone)" name="nodelet" value="standalone"/>
+  <arg unless="$(arg standalone)" name="nodelet_manager" value="$(arg manager)"/>
+  <arg     if="$(arg standalone)" name="nodelet_manager" value=""/>
+
+  <arg unless="$(eval arg('RUN_TYPE') == 'simulation')" name="fixed_frame" value="$(arg UAV_NAME)/vio_origin"/>
+  <arg if="$(eval arg('RUN_TYPE') == 'simulation')" name="fixed_frame" value="$(arg UAV_NAME)/rtk_origin"/>
+  
+  <!-- Namespace - all topics, services and parameters will be remapped using this namespace as a prefix (eg.: "/example_waypoint_flier/odom_uav_in" to "/uav1/example_waypoint_flier/odom_uav_in") -->
+  <group ns="$(arg UAV_NAME)">
+
+    <!-- ExampleWaypointFlier nodelet -->
+    <node pkg="nodelet" type="nodelet" name="point_cloud_manager" args="$(arg nodelet) point_cloud_manager/PointCloudManager $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
+
+      <!-- Parameters loaded from launch file -->
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+      <param name="fixed_frame" value="$(arg fixed_frame)"/>
+      <param name="target_pointcloud_frame_id" value="$(arg UAV_NAME)/fcu"/>
+
+
+        <!-- ROS parameters config file -->
+      <rosparam file="$(find point_cloud_manager)/config/point_cloud_manager.yaml" />
+      <rosparam if="$(eval not arg('custom_config') == '')" file="$(arg custom_config)" command="load" />
+
+        <!-- Subscribers (note that the topic names will also be remapped using the namespace as a prefix) -->
+      <!-- <remap from="~pointcloud_picoflexx_left_in" to="/$(arg UAV_NAME)/picoflexx_left/pcl_filtered" /> -->
+      <!-- <remap from="~pointcloud_picoflexx_right_in" to="/$(arg UAV_NAME)/picoflexx_right/pcl_filtered" /> -->
+      <!-- <remap from="~pointcloud_picoflexx_back_in" to="/$(arg UAV_NAME)/picoflexx_back/pcl_filtered" /> -->
+      <remap from="~pointcloud_picoflexx_left_in" to="/$(arg UAV_NAME)/picoflexx_left/pcl_filtered" />
+      <remap from="~pointcloud_picoflexx_right_in" to="/$(arg UAV_NAME)/picoflexx_right/pcl_filtered" />
+      <remap from="~pointcloud_picoflexx_back_in" to="/$(arg UAV_NAME)/picoflexx_back/pcl_filtered" />
+      <remap from="~pointcloud_oak_in" to="/$(arg UAV_NAME)/oak/stereo/pcl_filtered" />
+      <remap from="~pointcloud_realsense_in" to="/$(arg UAV_NAME)/rgbd/aligned_depth_to_color/pcl_filtered" />
+      <remap from="~garmin_in" to="/$(arg UAV_NAME)/mavros/distance_sensor/garmin" />
+      <remap from="~mission_state_in" to="mission_controller/state" />
+      <remap from="~tf" to="/tf" />
+
+        <!-- Publishers (note that the topic names will also be remapped using the namespace as a prefix) -->
+        <!--<remap from="~transformed_pointcloud_out" to="/uav46/pointcloud" />-->
+        <remap from="~transformed_pointcloud_out" to="~transformed_pointcloud" />
+
+
+    </node>
+
+  </group>
+
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="config"          default="mrs/rosbag/t265" />
+
+    <!-- MASTER NODE -->
+    <node name="mins_subscribe" pkg="mins" type="subscribe" output="screen" clear_params="true" required="true">
+        <param name="config_path"       type="str"  value="$(find mins)/config/$(arg config)/config.yaml" />
+    </node>
+
+  <node name="republish_cam0" type="republish" pkg="image_transport" output="screen" args="compressed in:=/uav46/t265/fisheye1/image_raw raw out:=/uav46/t265/fisheye1/image_raw" />
+  <node name="republish_cam1" type="republish" pkg="image_transport" output="screen" args="compressed in:=/uav46/t265/fisheye2/image_raw raw out:=/uav46/t265/fisheye2/image_raw" />
+
+</launch>

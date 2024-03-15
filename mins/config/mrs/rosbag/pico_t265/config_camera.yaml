@@ -1,0 +1,60 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+cam:
+  enabled: true
+  max_n: 2
+  use_stereo: true
+  stereo_pair: [0, 1]
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: false
+  n_pts: 200
+  fast: 15
+  grid_x: 20
+  grid_y: 20
+  min_px_dist: 15
+  knn: 0.70
+  downsample: false
+  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
+  max_slam: 50
+  max_msckf: 10
+  feat_rep: "GLOBAL_3D"
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-3
+  init_cov_in_k: 1e-0
+  init_cov_in_c: 1e-0
+  init_cov_in_r: 1e-5
+  sigma_px: 1
+  chi2_mult: 1
+
+  # ==================================================================
+  # ==================================================================
+cam0:
+  timeoffset: 0.024
+  T_imu_cam: #rotation from camera to IMU R_CtoI, position of camera in IMU p_CinI
+    - [ 0.025,-0.016, 1.000, 0.055]
+    - [-1.000,-0.013, 0.025, 0.032]
+    - [ 0.013,-1.000,-0.016, 0.065]
+    - [ 0.000, 0.000, 0.000, 1.000]
+  cam_overlaps: [1]
+  camera_model: pinhole
+  distortion_coeffs: [-0.00413605011999607, 0.0385973118245602, -0.0369558110833168, 0.00608701910823584]
+  distortion_model: equidistant
+  intrinsics: [284.378601074219,285.364898681641, 423.223510742188, 402.276000976562] #fu, fv, cu, cv
+  resolution: [848, 800]
+  topic: "/uav46/t265/fisheye1/image_raw"
+cam1:
+  timeoffset: 0.024
+  T_imu_cam: #rotation from camera to IMU R_CtoI, position of camera in IMU p_CinI
+    - [ 0.018,-0.012, 1.000, 0.055]
+    - [-1.000,-0.017, 0.017,-0.032]
+    - [ 0.017,-1.000,-0.012, 0.065]
+    - [ 0.000, 0.000, 0.000, 1.000]
+  cam_overlaps: [0]
+  camera_model: pinhole
+  distortion_coeffs: [-0.00312783196568489, 0.0387581698596478, -0.0367337986826897, 0.00606365082785487]
+  distortion_model: equidistant
+  intrinsics: [285.629211425781, 286.654602050781, 433.148193359375, 403.567413330078] #fu, fv, cu, cv
+  resolution: [848, 800]
+  topic: "/uav46/t265/fisheye2/image_raw"

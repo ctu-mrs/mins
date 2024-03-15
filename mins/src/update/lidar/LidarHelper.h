@@ -21,6 +21,7 @@
 #ifndef MINS_LIDARHELPER_H
 #define MINS_LIDARHELPER_H
 #include <memory>
+#include <chrono>
 #include <pointmatcher/PointMatcher.h>
 
 using namespace std;

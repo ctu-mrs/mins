@@ -29,6 +29,11 @@ void mins::OptionsWheel::load(const std::shared_ptr<ov_core::YamlParser> &parser
       enabled = false;
       return;
     }
+
+    // load uav_name
+    auto nh = std::make_shared<ros::NodeHandle>("~");
+    nh->param<std::string>("uav_name", uav_name, "uav1");
+
     parser->parse_external(f, "wheel", "enabled", enabled);
     parser->parse_external(f, "wheel", "chi2_mult", chi2_mult);
     parser->parse_external(f, "wheel", "noise_w", noise_w);
@@ -54,9 +59,11 @@ void mins::OptionsWheel::load(const std::shared_ptr<ov_core::YamlParser> &parser
         std::string token;
         if ((pos = sub_topics_.find(", ")) != std::string::npos) {
           token = sub_topics_.substr(0, pos);
+          token = "/" + uav_name + "/" + token;
           sub_topics.push_back(token);
           sub_topics_.erase(0, pos + 2);
         } else {
+          sub_topics_ = "/" + uav_name + "/" + sub_topics_;
           sub_topics.push_back(sub_topics_);
           break;
         }

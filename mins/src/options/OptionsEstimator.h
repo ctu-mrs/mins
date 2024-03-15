@@ -150,6 +150,21 @@ struct OptionsEstimator {
 
   /// boolean for dynamic cloning
   bool dynamic_cloning = true;
+
+  /// tf frames
+  std::string frame_fcu;
+  std::string frame_global;
+  std::string frame_map;
+  std::string frame_imu;
+  std::string frame_cam;
+  std::string frame_lidar;
+  std::string frame_gps;
+  std::string frame_wheel;
+  std::string frame_vicon;
+
+  bool frame_clone_enabled;
+  std::string frame_clone;
+
 };
 
 } // namespace mins

@@ -45,6 +45,9 @@ struct OptionsIMU {
 
   void print();
 
+  /// UAV name namespace
+  std::string uav_name;
+
   /// rostopic to subscribe
   std::string topic;
 

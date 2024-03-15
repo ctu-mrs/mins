@@ -29,6 +29,11 @@ void mins::OptionsVicon::load(const std::shared_ptr<ov_core::YamlParser> &parser
       enabled = false;
       return;
     }
+
+    // load uav_name
+    auto nh = std::make_shared<ros::NodeHandle>("~");
+    nh->param<std::string>("uav_name", uav_name, "uav1");
+
     parser->parse_external(f, "vicon", "enabled", enabled);
     parser->parse_external(f, "vicon", "max_n", max_n);
     parser->parse_external(f, "vicon", "noise_o", noise_o);
@@ -61,6 +66,7 @@ void mins::OptionsVicon::load_i(const std::shared_ptr<ov_core::YamlParser> &pars
 
   std::string vicon_topic;
   parser->parse_external(f, "vicon" + std::to_string(i), "topic", vicon_topic);
+  vicon_topic = "/" + uav_name + "/" + vicon_topic;
   topic.push_back(vicon_topic);
 }
 

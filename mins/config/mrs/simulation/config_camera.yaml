@@ -1,0 +1,45 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+cam:
+  enabled: true
+  max_n: 1
+  use_stereo: false
+  # stereo_pair: [0, 1]
+  do_calib_ext: false
+  do_calib_int: false
+  do_calib_dt: false
+  n_pts: 200
+  fast: 15
+  grid_x: 20
+  grid_y: 20
+  min_px_dist: 15
+  knn: 0.70
+  downsample: false
+  histogram_method: "HISTOGRAM" # NONE, HISTOGRAM, CLAHE
+  max_slam: 50
+  max_msckf: 10
+  feat_rep: "GLOBAL_3D"
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-3
+  init_cov_in_k: 1e-0
+  init_cov_in_c: 1e-0
+  init_cov_in_r: 1e-5
+  sigma_px: 1
+  chi2_mult: 1
+
+  # ==================================================================
+  # ==================================================================
+
+cam0:
+  timeoffset: 0.0
+  T_imu_cam: #rotation from camera to IMU, position of camera in IMU
+    - [ 1.000,  0.000,  0.000, 0.000]
+    - [ 0.000,  1.000,  0.000, 0.000]
+    - [ 0.000,  0.000,  1.000, 0.000]
+    - [ 0.000,  0.000,  0.000, 1.000]
+  distortion_coeffs: [0.019265981371039506, 0.0011428473998276235, -0.0003811659324868097, 6.340084698783884e-05]
+  distortion_model: equidistant
+  intrinsics: [227.4010064226358,227.35879407313246,375.5302935901654,239.4881944649193] #fu, fv, cu, cv
+  resolution: [752, 480]
+  topic: "/uav1/vio/camera/image_raw"

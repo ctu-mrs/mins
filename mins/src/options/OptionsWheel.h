@@ -45,6 +45,9 @@ struct OptionsWheel {
   /// rostopic to subscribe
   std::string topic;
 
+  /// UAV name namespace
+  std::string uav_name;
+
   vector<string> sub_topics = {"front_left_wheel_joint", "front_right_wheel_joint", "rear_left_wheel_joint", "rear_right_wheel_joint"};
 
   /// Type of the wheel

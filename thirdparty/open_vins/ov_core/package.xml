@@ -2,7 +2,7 @@
 <package format="3">
 
     <!-- Package Information -->
-    <name>ov_core</name>
+    <name>mins_ov_core</name>
     <version>2.7.0</version>
     <description>
         Core algorithms for visual-inertial navigation algorithms.

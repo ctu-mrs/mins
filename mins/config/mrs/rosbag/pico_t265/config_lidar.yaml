@@ -1,0 +1,40 @@
+%YAML:1.0 # need to specify the file type at the top!
+
+lidar:
+  enabled: true
+  max_n: 1
+  do_calib_dt: false
+  do_calib_ext: false
+  init_cov_dt: 1e-4
+  init_cov_ex_o: 1e-4
+  init_cov_ex_p: 1e-3
+  max_range: 10.0
+  min_range: 0.1
+  chi2_mult: 1.0 
+  raw_do_downsample: false
+  raw_downsample_size: 0.000001
+  raw_noise: 0.01
+  raw_remove_motion_blur: false # required to set v_angles and h_angles correctly
+  raw_point_dt: 1e-6
+  map_do_downsample: true
+  map_downsample_size: 0.10
+  map_noise: 0.01
+  map_ngbr_num: 5 # number of neighbors in map to compute plane from for each point of new cloud
+  map_ngbr_max_d: 0.5
+  map_decay_time: 120 # sec
+  map_decay_dist: 100 # m
+  map_icp_dist: 5 # m
+  map_use_icp: false # when ICP is not used, new cloud is transformed to map using the current state from IMU and other sensors, EKF measurement is then generated from point to plane matches (ICP takes a lot of time, ideally should be disabled)
+  plane_max_p2pd: 0.10 # max distance of neighbors from fitted plane to be used in update
+  plane_max_condi: 200.0 # condition number of the matrix A of least squares plane to neighbors fitting to be used in update
+
+lidar0:
+  timeoffset: 0.02
+  T_imu_lidar:
+   - [ 1, 0, 0]
+   - [ 0, 1, 0]
+   - [ 0, 0, 1]
+  h_resolution: 0.1
+  h_start: -180
+  h_end: 180
+  topic: "/uav46/point_cloud_manager/transformed_pointcloud"

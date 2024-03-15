@@ -60,6 +60,9 @@ struct OptionsCamera {
   /// boolean for additional timing analysis print
   bool time_analysis = false;
 
+  /// UAV name namespace
+  std::string uav_name;
+
   /// rostopic to subscribe
   std::vector<std::string> topic;
 

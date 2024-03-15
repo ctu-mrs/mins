@@ -29,6 +29,11 @@ void mins::OptionsLidar::load(const std::shared_ptr<ov_core::YamlParser> &parser
       enabled = false;
       return;
     }
+
+    // load uav_name
+    auto nh = std::make_shared<ros::NodeHandle>("~");
+    nh->param<std::string>("uav_name", uav_name, "uav1");
+
     parser->parse_external(f, "lidar", "enabled", enabled);
     parser->parse_external(f, "lidar", "max_n", max_n);
     parser->parse_external(f, "lidar", "chi2_mult", chi2_mult);
@@ -101,6 +106,7 @@ void mins::OptionsLidar::load_i(const std::shared_ptr<ov_core::YamlParser> &pars
 
   std::string lidar_topic;
   parser->parse_external(f, "lidar" + std::to_string(i), "topic", lidar_topic);
+  lidar_topic = "/" + uav_name + "/" + lidar_topic;
   topic.push_back(lidar_topic);
 }
 

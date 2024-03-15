@@ -39,6 +39,21 @@
 void mins::OptionsEstimator::load(const std::shared_ptr<ov_core::YamlParser> &parser) {
   if (parser != nullptr) {
     std::string f = "config_estimator";
+
+    // load tf frame params
+    auto nh = make_shared<ros::NodeHandle>("~");
+    nh->param<string>("frame/fcu", frame_fcu, "fcu");
+    nh->param<string>("frame/global", frame_global, "global");
+    nh->param<string>("frame/map", frame_map, "map");
+    nh->param<string>("frame/imu", frame_imu, "imu");
+    nh->param<string>("frame/cam", frame_cam, "cam");
+    nh->param<string>("frame/lidar", frame_lidar, "lidar");
+    nh->param<string>("frame/gps", frame_gps, "gps");
+    nh->param<string>("frame/wheel", frame_wheel, "wheel");
+    nh->param<string>("frame/vicon", frame_vicon, "vicon");
+    nh->param<bool>("frame/clone_enabled", frame_clone_enabled, true);
+    nh->param<string>("frame/clone", frame_clone, "clone");
+
     parser->parse_external(f, "est", "gravity_mag", gravity(2));
     parser->parse_external(f, "est", "use_imu_res", use_imu_res);
     parser->parse_external(f, "est", "use_imu_cov", use_imu_cov);

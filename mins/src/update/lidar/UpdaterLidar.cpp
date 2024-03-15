@@ -85,12 +85,20 @@ void UpdaterLidar::feed_measurement(std::shared_ptr<pcl::PointCloud<pcl::PointXY
     }
 
     // Do down sample the pointcloud if enabled
+    
+    /* PRINT2("raw points before downsampling: %d\n", (*it)->size()); */
+    auto t1 = std::chrono::high_resolution_clock::now();
     state->op->lidar->raw_do_downsample ? LidarHelper::downsample((*it), state->op->lidar->raw_downsample_size) : void();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+    /* PRINT2("raw downsampling took: %.2f ms\n", ms_double.count()); */
+    /* PRINT2("raw points after downsampling: %d\n", (*it)->size()); */
 
     // Initialize ikd map if not initialized OR scan registration failed more than 1 second
     if (!ikd_data.at((*it)->id)->tree->initialized() || ikd_data.at((*it)->id)->last_up_time + 1 < (*it)->time) {
       LidarHelper::init_map_local((*it), ikd_data.at((*it)->id), state->op->lidar);
       it = stack_lidar_raw.erase(it);
+      PRINT3("initializing ikd map\n");
       continue;
     }
 
@@ -206,8 +214,10 @@ bool UpdaterLidar::update(std::shared_ptr<LiDARData> lidar, shared_ptr<iKDDATA> 
     if (ikd->time + dt > state->oldest_clone_time()) {
       cout << "ikd->time + dt > state->oldest_clone_time()" << endl;
       return false;
-    } else
+    } else {
+      cout << "ikd->time + dt <= state->oldest_clone_time()" << endl;
       std::exit(EXIT_FAILURE);
+    }
   }
 
   // Add to state map

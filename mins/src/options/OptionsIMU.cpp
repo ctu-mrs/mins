@@ -30,6 +30,11 @@
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsIMU::load(const std::shared_ptr<ov_core::YamlParser> &parser) {
+
+    // load uav_name
+    auto nh = std::make_shared<ros::NodeHandle>("~");
+    nh->param<std::string>("uav_name", uav_name, "uav1");
+
   if (parser != nullptr) {
     std::string f = "config_imu";
     parser->parse_external(f, "imu", "gyro_noise", sigma_w);
@@ -37,6 +42,7 @@ void mins::OptionsIMU::load(const std::shared_ptr<ov_core::YamlParser> &parser) 
     parser->parse_external(f, "imu", "accel_noise", sigma_a);
     parser->parse_external(f, "imu", "accel_bias", sigma_ab);
     parser->parse_external(f, "imu", "topic", topic);
+    topic = "/" + uav_name + "/" + topic;
   }
 }
 

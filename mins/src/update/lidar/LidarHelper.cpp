@@ -87,6 +87,7 @@ bool LidarHelper::remove_motion_blur(shared_ptr<State> state, shared_ptr<LiDARDa
 }
 
 void LidarHelper::downsample(shared_ptr<LiDARData> lidar, double downsample_size) {
+
   pcl::VoxelGrid<pcl::PointXYZI> downSizeFilter;
   downSizeFilter.setLeafSize((float)downsample_size, (float)downsample_size, (float)downsample_size);
   downSizeFilter.setInputCloud((*lidar->pointcloud).makeShared());
@@ -153,6 +154,7 @@ bool LidarHelper::transform_to_map(shared_ptr<State> state, shared_ptr<LiDARData
   //===================================================================
   // Run ICP if we use it to register the map
   //===================================================================
+  // note petrlmat: if ICP fails or is not used, the transform is not modified
   if (state->op->lidar->map_use_icp) {
     POINTCLOUD_XYZI_PTR map_pointcloud = std::make_shared<pcl::PointCloud<pcl::PointXYZI>>();
     ikd->tree->flatten(ikd->tree->Root_Node, map_pointcloud->points, NOT_RECORD);
@@ -168,19 +170,43 @@ bool LidarHelper::transform_to_map(shared_ptr<State> state, shared_ptr<LiDARData
     icp.referenceDataPointsFilters.push_back(PM::get().DataPointsFilterRegistrar.create("MaxDistDataPointsFilter", params));
     icp.referenceDataPointsFilters.push_back(PM::get().DataPointsFilterRegistrar.create("SamplingSurfaceNormalDataPointsFilter"));
 
-    PM::DataPoints map_points = PCL2DM(map_pointcloud);
-    PM::DataPoints new_points = PCL2DM(new_pointcloud);
-    PM::TransformationParameters T_icp = icp.compute(new_points, map_points, T_LtoM);
-
-    // Get transform
-    Matrix4f T_diff = T_icp * T_LtoM.inverse();
-    if (icp.getMaxNumIterationsReached() || T_diff.block(0, 3, 3, 1).norm() > 1) {
+    PRINT2("ICP map: %d new: %d\n", map_pointcloud->size(), new_pointcloud->size());
+    // note petrlmat: added check for input to ICP to prevent crashes due to low number of points
+    if (map_pointcloud->size() < 10 || new_pointcloud->size() < 10) {
       lidar->T_LtoM = T_LtoM;
       lidar->icp_success = false;
+      PRINT3("ICP skipped due to low number of points for lidar: %d\n", lidar->id);
+
     } else {
-      lidar->T_LtoM = T_icp;
-      lidar->icp_success = true;
+      PM::DataPoints map_points = PCL2DM(map_pointcloud);
+      PM::DataPoints new_points = PCL2DM(new_pointcloud);
+      PRINT2("ICP data map: %d new: %d\n", map_points.getNbPoints(), new_points.getNbPoints());
+
+      try {
+        auto t1 = std::chrono::high_resolution_clock::now();
+
+        PM::TransformationParameters T_icp = icp.compute(new_points, map_points, T_LtoM);
+
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+        PRINT2("ICP took: %.2f ms\n", ms_double.count());
+        // Get transform
+        Matrix4f T_diff = T_icp * T_LtoM.inverse();
+        if (icp.getMaxNumIterationsReached() || T_diff.block(0, 3, 3, 1).norm() > 1) {
+          lidar->T_LtoM = T_LtoM;
+          lidar->icp_success = false;
+          PRINT3("ICP failed for lidar: %d\n", lidar->id);
+        } else {
+          lidar->T_LtoM = T_icp;
+          lidar->icp_success = true;
+        }
+      } catch (...) {
+          lidar->T_LtoM = T_LtoM;
+          lidar->icp_success = false;
+          PRINT3("caught exception in ICP for lidar: %d\n", lidar->id);
+      }
     }
+
   } else {
     lidar->T_LtoM = T_LtoM;
     lidar->icp_success = true;
@@ -211,7 +237,13 @@ void LidarHelper::propagate_map_to_newest_clone(shared_ptr<State> state, shared_
   // Load map info
   POINTCLOUD_XYZI_PTR map_points = std::make_shared<pcl::PointCloud<pcl::PointXYZI>>();
   ikd->tree->flatten(ikd->tree->Root_Node, map_points->points, NOT_RECORD);
+  /* PRINT2("map points before downsampling: %d\n", map_points->points.size()); */
+  auto t1 = std::chrono::high_resolution_clock::now();
   op->map_do_downsample ? downsample(map_points, state->op->lidar->map_downsample_size) : void();
+  auto t2 = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+  /* PRINT2("map downsampling took: %.2f ms\n", ms_double.count()); */
+  /* PRINT2("map points after downsampling: %d\n", map_points->points.size()); */
 
   // Delete old points
   shared_ptr<LiDARData> lidar_inM = shared_ptr<LiDARData>(new LiDARData);

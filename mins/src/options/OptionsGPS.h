@@ -45,6 +45,9 @@ struct OptionsGPS {
   /// Max number of sensor
   int max_n = 2;
 
+  /// UAV name namespace
+  std::string uav_name;
+
   /// rostopic to subscribe
   std::vector<std::string> topic;
 

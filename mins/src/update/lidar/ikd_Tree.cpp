@@ -401,6 +401,8 @@ template <typename PointType> void KD_TREE<PointType>::Radius_Search(PointType p
 template <typename PointType> int KD_TREE<PointType>::Add_Points(PointVector &PointToAdd, bool downsample_on) {
   int NewPointSize = PointToAdd.size();
   int tree_size = size();
+  /* printf("ikd size before %d:\n", tree_size); */
+  /* printf("points to add to ikd %d:\n", NewPointSize); */
   BoxPointType Box_of_Point;
   PointType downsample_result, mid_point;
   bool downsample_switch = downsample_on && DOWNSAMPLE_SWITCH;
@@ -475,6 +477,7 @@ template <typename PointType> int KD_TREE<PointType>::Add_Points(PointVector &Po
       }
     }
   }
+  /* printf("ikd size after %d:\n", size()); */
   return tmp_counter;
 }
 

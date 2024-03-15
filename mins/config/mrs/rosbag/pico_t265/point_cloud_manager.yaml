@@ -1,0 +1,54 @@
+# rates of timers in Hz
+rate:
+  check_subscribers: 1 # [Hz]
+  process_pointclouds: 10 # [Hz]
+
+  #target_pointcloud_frame_id: "uav46/fcu"
+  #fixed_frame: "uav46/vio_origin"
+tf_buffer_duration: 30.0
+just_republish: false
+compute_normals: false
+
+mission_control:
+  use_mission_controller: false
+  start_activation_state: -1 #mapping starts if the MissionState is >= this number
+  end_activation_state: 9 #mapping stops if the MissionState is >= this number
+
+use_input_data:
+  oak: false
+  realsense: false
+  picoflexx_left: true
+  picoflexx_right: true
+  picoflexx_back: true
+
+filter_oak:
+  use_filters: false
+  downsample:
+    use: false
+    voxel_size: 0.01
+  range:
+    use: false
+    z_min: 0.1
+    z_max: 3.0
+  vertical_range:
+    use: false
+    y_min: 0.0
+    y_max: 10.0    #cropping is in rgb_oak_frame_optical, so Y axis is pointing down
+
+filter_realsense:
+  use_filters: false
+  downsample:
+    use: true
+    voxel_size: 0.01
+  range:
+    use: false
+    z_min: 0.1
+    z_max: 5.0
+
+filter_picoflexxes:
+  crop_pico_back: false
+
+garmin:
+  use: false
+  min_height: 0.2
+
