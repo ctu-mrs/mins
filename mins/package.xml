@@ -29,7 +29,7 @@
     <depend>visualization_msgs</depend>
     <depend>image_transport</depend>
     <depend>cv_bridge</depend>
-    <depend>mins_ov_core</depend>
+    <depend>ov_core</depend>
     <depend>pcl_ros</depend>
     <depend>libpointmatcher</depend>
 
