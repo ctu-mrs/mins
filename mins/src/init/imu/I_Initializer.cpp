@@ -25,12 +25,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "I_Initializer.h"
+#include "mins/init/imu/I_Initializer.h"
 
-#include "options/OptionsEstimator.h"
-#include "options/OptionsInit.h"
-#include "state/Propagator.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsInit.h"
+#include "mins/state/Propagator.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 #include "utils/quat_ops.h"
 #include "utils/sensor_data.h"

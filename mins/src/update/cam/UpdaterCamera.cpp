@@ -25,21 +25,21 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterCamera.h"
-#include "CamHelper.h"
-#include "CamTypes.h"
+#include "mins/update/cam/UpdaterCamera.h"
+#include "mins/update/cam/CamHelper.h"
+#include "mins/update/cam/CamTypes.h"
 #include "feat/Feature.h"
 #include "feat/FeatureDatabase.h"
-#include "options/OptionsCamera.h"
-#include "options/OptionsEstimator.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/options/OptionsCamera.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "track/TrackKLT.h"
 #include "track/TrackSIM.h"
 #include "types/Landmark.h"
-#include "update/UpdaterStatistics.h"
-#include "utils/Print_Logger.h"
-#include "utils/TimeChecker.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/utils/Print_Logger.h"
+#include "mins/utils/TimeChecker.h"
 
 using namespace std;
 using namespace Eigen;

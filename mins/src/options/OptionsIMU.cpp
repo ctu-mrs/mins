@@ -25,8 +25,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsIMU.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsIMU.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsIMU::load(const std::shared_ptr<ov_core::YamlParser> &parser) {

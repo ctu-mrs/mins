@@ -6,7 +6,7 @@
  * Commit: c0e36a16b6e4d557d3783b16911207f6398dd478
 */
 
-#include "ikd_Tree.h"
+#include "mins/update/lidar/ikd_Tree.h"
 
 template <typename PointType> KD_TREE<PointType>::KD_TREE(float delete_param, float balance_param, float box_length) {
   delete_criterion_param = delete_param;

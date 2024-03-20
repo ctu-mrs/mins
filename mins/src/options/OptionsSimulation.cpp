@@ -25,9 +25,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsSimulation.h"
-#include "OptionsEstimator.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsSimulation.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 #include <ros/package.h>
 

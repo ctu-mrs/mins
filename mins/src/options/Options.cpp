@@ -18,15 +18,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Options.h"
-#include "OptionsEstimator.h"
-#include "OptionsGPS.h"
-#include "OptionsInit.h"
-#include "OptionsSimulation.h"
-#include "OptionsSystem.h"
-#include "OptionsVicon.h"
-#include "OptionsWheel.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/Options.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsGPS.h"
+#include "mins/options/OptionsInit.h"
+#include "mins/options/OptionsSimulation.h"
+#include "mins/options/OptionsSystem.h"
+#include "mins/options/OptionsVicon.h"
+#include "mins/options/OptionsWheel.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 mins::Options::Options() {

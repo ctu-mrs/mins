@@ -18,12 +18,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "IW_Initializer.h"
-#include "state/Propagator.h"
+#include "mins/init/imu_wheel/IW_Initializer.h"
+#include "mins/state/Propagator.h"
 #include "types/PoseJPL.h"
-#include "update/wheel/UpdaterWheel.h"
-#include "update/wheel/WheelTypes.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/wheel/UpdaterWheel.h"
+#include "mins/update/wheel/WheelTypes.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 #include "utils/sensor_data.h"
 

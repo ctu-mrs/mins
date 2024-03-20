@@ -25,16 +25,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ROSHelper.h"
-#include "options/OptionsCamera.h"
+#include "mins/core/ROSHelper.h"
+#include "mins/options/OptionsCamera.h"
 #include "pcl_conversions/pcl_conversions.h"
-#include "state/State.h"
+#include "mins/state/State.h"
 #include "types/PoseJPL.h"
 #include "types/Vec.h"
-#include "update/gps/GPSTypes.h"
-#include "update/vicon/ViconTypes.h"
-#include "update/wheel/WheelTypes.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/gps/GPSTypes.h"
+#include "mins/update/vicon/ViconTypes.h"
+#include "mins/update/wheel/WheelTypes.h"
+#include "mins/utils/Print_Logger.h"
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/point_cloud2_iterator.h>
 

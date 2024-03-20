@@ -25,20 +25,20 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ROSSubscriber.h"
-#include "ROSHelper.h"
-#include "ROSPublisher.h"
-#include "SystemManager.h"
-#include "options/OptionsCamera.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsGPS.h"
-#include "options/OptionsIMU.h"
-#include "options/OptionsLidar.h"
-#include "options/OptionsWheel.h"
-#include "state/State.h"
-#include "update/gps/GPSTypes.h"
-#include "update/wheel/WheelTypes.h"
-#include "utils/Print_Logger.h"
+#include "mins/core/ROSSubscriber.h"
+#include "mins/core/ROSHelper.h"
+#include "mins/core/ROSPublisher.h"
+#include "mins/core/SystemManager.h"
+#include "mins/options/OptionsCamera.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsGPS.h"
+#include "mins/options/OptionsIMU.h"
+#include "mins/options/OptionsLidar.h"
+#include "mins/options/OptionsWheel.h"
+#include "mins/state/State.h"
+#include "mins/update/gps/GPSTypes.h"
+#include "mins/update/wheel/WheelTypes.h"
+#include "mins/utils/Print_Logger.h"
 
 using namespace std;
 using namespace Eigen;

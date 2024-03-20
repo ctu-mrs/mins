@@ -18,8 +18,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsSystem.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsSystem.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 #include <ros/package.h>
 

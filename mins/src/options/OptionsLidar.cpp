@@ -18,8 +18,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsLidar.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsLidar.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsLidar::load(const std::shared_ptr<ov_core::YamlParser> &parser) {

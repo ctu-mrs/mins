@@ -18,11 +18,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterStatistics.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
-#include "utils/Jabdongsani.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
+#include "mins/utils/Jabdongsani.h"
+#include "mins/utils/Print_Logger.h"
 #include <boost/math/distributions/chi_squared.hpp>
 
 using namespace boost::math;

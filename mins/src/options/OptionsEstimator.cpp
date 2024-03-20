@@ -25,15 +25,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsEstimator.h"
-#include "OptionsCamera.h"
-#include "OptionsGPS.h"
-#include "OptionsIMU.h"
-#include "OptionsInit.h"
-#include "OptionsLidar.h"
-#include "OptionsVicon.h"
-#include "OptionsWheel.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsCamera.h"
+#include "mins/options/OptionsGPS.h"
+#include "mins/options/OptionsIMU.h"
+#include "mins/options/OptionsInit.h"
+#include "mins/options/OptionsLidar.h"
+#include "mins/options/OptionsVicon.h"
+#include "mins/options/OptionsWheel.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsEstimator::load(const std::shared_ptr<ov_core::YamlParser> &parser) {

@@ -25,16 +25,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "StateHelper.h"
-#include "State.h"
+#include "mins/state/StateHelper.h"
+#include "mins/state/State.h"
 #include "cam/CamBase.h"
-#include "options/OptionsCamera.h"
-#include "options/OptionsEstimator.h"
+#include "mins/options/OptionsCamera.h"
+#include "mins/options/OptionsEstimator.h"
 #include "types/IMU.h"
 #include "types/Landmark.h"
 #include "types/PoseJPL.h"
 #include "types/Type.h"
-#include "utils/Print_Logger.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 #include <boost/math/distributions/chi_squared.hpp>
 

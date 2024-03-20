@@ -27,14 +27,14 @@
 
 #include <memory>
 
-#include "core/ROSPublisher.h"
-#include "core/ROSSubscriber.h"
-#include "core/SystemManager.h"
-#include "options/Options.h"
-#include "options/OptionsSystem.h"
-#include "utils/Print_Logger.h"
-#include "utils/State_Logger.h"
-#include "utils/TimeChecker.h"
+#include "mins/core/ROSPublisher.h"
+#include "mins/core/ROSSubscriber.h"
+#include "mins/core/SystemManager.h"
+#include "mins/options/Options.h"
+#include "mins/options/OptionsSystem.h"
+#include "mins/utils/Print_Logger.h"
+#include "mins/utils/State_Logger.h"
+#include "mins/utils/TimeChecker.h"
 #include "utils/colors.h"
 #include "utils/opencv_yaml_parse.h"
 #include <ros/ros.h>

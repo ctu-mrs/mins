@@ -18,19 +18,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterLidar.h"
-#include "LidarHelper.h"
-#include "LidarTypes.h"
-#include "ikd_Tree.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsLidar.h"
+#include "mins/update/lidar/UpdaterLidar.h"
+#include "mins/update/lidar/LidarHelper.h"
+#include "mins/update/lidar/LidarTypes.h"
+#include "mins/update/lidar/ikd_Tree.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsLidar.h"
 #include "pcl/point_cloud.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "types/PoseJPL.h"
 #include "types/Vec.h"
-#include "update/UpdaterStatistics.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 #include <thread>
 

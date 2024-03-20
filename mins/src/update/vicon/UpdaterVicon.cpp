@@ -18,17 +18,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterVicon.h"
-#include "ViconTypes.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsVicon.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/update/vicon/UpdaterVicon.h"
+#include "mins/update/vicon/ViconTypes.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsVicon.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "types/PoseJPL.h"
 #include "types/Type.h"
 #include "types/Vec.h"
-#include "update/UpdaterStatistics.h"
-#include "utils/Jabdongsani.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/utils/Jabdongsani.h"
 
 using namespace ov_core;
 using namespace ov_type;

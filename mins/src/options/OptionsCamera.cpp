@@ -25,9 +25,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsCamera.h"
+#include "mins/options/OptionsCamera.h"
 #include "feat/FeatureInitializerOptions.h"
-#include "utils/Print_Logger.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsCamera::load(const std::shared_ptr<ov_core::YamlParser> &parser) {

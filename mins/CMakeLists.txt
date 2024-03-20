@@ -41,13 +41,13 @@ add_definitions(-DROS_AVAILABLE=1)
 # Add catkin packages
 catkin_package(
         CATKIN_DEPENDS roscpp rosbag tf std_msgs geometry_msgs sensor_msgs nav_msgs image_geometry visualization_msgs image_transport cv_bridge ov_core pcl_ros
-        INCLUDE_DIRS src/
+        INCLUDE_DIRS include/
         LIBRARIES mins_lib
 )
 
 # Include our header files
 include_directories(
-        src
+        include
         ${EIGEN3_INCLUDE_DIR}
         ${PCL_INCLUDE_DIRS}
         ${Boost_INCLUDE_DIRS}
@@ -108,39 +108,21 @@ list(APPEND LIBRARY_SOURCES
         )
 
 
-file(GLOB_RECURSE LIBRARY_HEADERS "src/*.h")
-add_library(mins_lib SHARED ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
+add_library(mins_lib SHARED ${LIBRARY_SOURCES})
 target_link_libraries(mins_lib ${thirdparty_libraries})
-target_include_directories(mins_lib PUBLIC src/)
+target_include_directories(mins_lib PUBLIC include/)
 install(TARGETS mins_lib
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
         )
-install(DIRECTORY src/
+install(DIRECTORY include/
         DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
-        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
         )
 
 ##################################################
 # Make binary files!
 ##################################################
-
-add_executable(simulation src/run_simulation.cpp)
-target_link_libraries(simulation mins_lib)
-install(TARGETS simulation
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-        )
-
-add_executable(bag src/run_bag.cpp)
-target_link_libraries(bag mins_lib)
-install(TARGETS bag
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-        )
 
 add_executable(subscribe src/run_subscribe.cpp)
 target_link_libraries(subscribe mins_lib)
@@ -149,3 +131,7 @@ install(TARGETS subscribe
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
         )
+
+install(DIRECTORY include/mins/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  )

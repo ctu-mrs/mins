@@ -25,9 +25,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ConstBsplineSE3.h"
+#include "mins/sim/ConstBsplineSE3.h"
 #include "sim/BsplineSE3.h"
-#include "utils/Print_Logger.h"
+#include "mins/utils/Print_Logger.h"
 
 using namespace mins;
 using namespace ov_core;

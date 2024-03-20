@@ -18,8 +18,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OptionsVicon.h"
-#include "utils/Print_Logger.h"
+#include "mins/options/OptionsVicon.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/opencv_yaml_parse.h"
 
 void mins::OptionsVicon::load(const std::shared_ptr<ov_core::YamlParser> &parser) {

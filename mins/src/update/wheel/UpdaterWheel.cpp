@@ -18,16 +18,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterWheel.h"
-#include "WheelTypes.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsWheel.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/update/wheel/UpdaterWheel.h"
+#include "mins/update/wheel/WheelTypes.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsWheel.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "types/PoseJPL.h"
 #include "types/Vec.h"
-#include "update/UpdaterStatistics.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 
 using namespace mins;

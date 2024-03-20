@@ -25,19 +25,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "CamHelper.h"
-#include "CamTypes.h"
+#include "mins/update/cam/CamHelper.h"
+#include "mins/update/cam/CamTypes.h"
 #include "cam/CamBase.h"
 #include "feat/Feature.h"
 #include "feat/FeatureDatabase.h"
-#include "options/OptionsCamera.h"
-#include "options/OptionsEstimator.h"
-#include "state/State.h"
+#include "mins/options/OptionsCamera.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/state/State.h"
 #include "types/Landmark.h"
 #include "types/PoseJPL.h"
 #include "types/Vec.h"
-#include "utils/Jabdongsani.h"
-#include "utils/Print_Logger.h"
+#include "mins/utils/Jabdongsani.h"
+#include "mins/utils/Print_Logger.h"
 
 using namespace std;
 using namespace Eigen;

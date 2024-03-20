@@ -18,22 +18,22 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "UpdaterGPS.h"
-#include "GPSTypes.h"
-#include "MathGPS.h"
-#include "PoseJPL_4DOF.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsGPS.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/update/gps/UpdaterGPS.h"
+#include "mins/update/gps/GPSTypes.h"
+#include "mins/update/gps/MathGPS.h"
+#include "mins/update/gps/PoseJPL_4DOF.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsGPS.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "types/IMU.h"
 #include "types/Landmark.h"
 #include "types/PoseJPL.h"
 #include "types/Type.h"
 #include "types/Vec.h"
-#include "update/UpdaterStatistics.h"
-#include "utils/Jabdongsani.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/UpdaterStatistics.h"
+#include "mins/utils/Jabdongsani.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 
 using namespace mins;

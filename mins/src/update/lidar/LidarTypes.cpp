@@ -18,8 +18,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "LidarTypes.h"
-#include "ikd_Tree.h"
+#include "mins/update/lidar/LidarTypes.h"
+#include "mins/update/lidar/ikd_Tree.h"
 #include "pcl/point_cloud.h"
 
 using namespace mins;

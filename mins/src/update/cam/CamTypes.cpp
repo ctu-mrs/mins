@@ -25,8 +25,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "CamTypes.h"
-#include "utils/Print_Logger.h"
+#include "mins/update/cam/CamTypes.h"
+#include "mins/utils/Print_Logger.h"
 
 void mins::CamLinSys::print() {
   PRINT0("Hf\n");

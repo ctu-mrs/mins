@@ -25,14 +25,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Propagator.h"
+#include "mins/state/Propagator.h"
 #include "cpi/CpiV1.h"
-#include "options/OptionsEstimator.h"
-#include "options/OptionsIMU.h"
-#include "state/State.h"
-#include "state/StateHelper.h"
+#include "mins/options/OptionsEstimator.h"
+#include "mins/options/OptionsIMU.h"
+#include "mins/state/State.h"
+#include "mins/state/StateHelper.h"
 #include "types/IMU.h"
-#include "utils/Print_Logger.h"
+#include "mins/utils/Print_Logger.h"
 #include "utils/colors.h"
 #include "utils/sensor_data.h"
 
