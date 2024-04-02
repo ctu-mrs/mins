@@ -50,6 +50,7 @@ void mins::OptionsCamera::load(const std::shared_ptr<ov_core::YamlParser> &parse
     parser->parse_external(f, "cam", "do_calib_int", do_calib_int);
     parser->parse_external(f, "cam", "do_calib_dt", do_calib_dt);
     parser->parse_external(f, "cam", "downsample", downsample);
+    parser->parse_external(f, "cam", "num_opencv_threads", num_opencv_threads);
     parser->parse_external(f, "cam", "n_pts", n_pts);
     parser->parse_external(f, "cam", "fast", fast);
     parser->parse_external(f, "cam", "grid_x", grid_x);

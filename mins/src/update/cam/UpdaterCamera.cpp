@@ -121,11 +121,17 @@ void UpdaterCamera::feed_measurement(const ov_core::CameraData &camdata) {
 
   // Perform our feature tracking!
   int cam_id = message.sensor_ids.at(0);
+  tc->dingdong("[Time-Cam] track feats");
   trackFEATS.at(cam_id)->feed_new_camera(message);
+  tc->dingdong("[Time-Cam] track feats");
+  tc->dingdong("[Time-Cam] track database");
   trackDATABASE.at(cam_id)->append_new_measurements(trackFEATS.at(cam_id)->get_feature_database());
+  tc->dingdong("[Time-Cam] track database");
 
   // Marginalize lost-track SLAM features
+  tc->dingdong("[Time-Cam] marginalize slam features");
   marginalize_slam_features(camdata);
+  tc->dingdong("[Time-Cam] marginalize slam features");
   tc->dingdong("[Time-Cam] feed measurement");
 }
 
@@ -339,21 +345,28 @@ void UpdaterCamera::msckf_update(V_Feature &vec_features, DB_ptr db_unused) {
 }
 
 void UpdaterCamera::slam_update(V_Feature &vec_features, DB_ptr db_unused) {
+  PRINT1("[SLAM update]: vec_features.size() = %u\n", vec_features.size());
   for (auto feat = vec_features.begin(); feat != vec_features.end();) {
     // Ensure we have the landmark and it is the same
     assert(state->cam_SLAM_features.find((*feat)->featid) != state->cam_SLAM_features.end());
     assert(state->cam_SLAM_features.at((*feat)->featid)->_featid == (*feat)->featid);
 
     // Get the IMU poses
+    tc->dingdong("[Time-Cam] slam_update - getting imu");
     ID_T_POSE imu_poses;
     CamHelper::get_imu_poses(state, (*feat), db_unused, imu_poses);
+    tc->dingdong("[Time-Cam] slam_update - getting imu");
 
     // Convert the state landmark into our current format
+    tc->dingdong("[Time-Cam] slam_update - converting landmark");
     shared_ptr<ov_type::Landmark> landmark = state->cam_SLAM_features.at((*feat)->featid);
     CamFeature cam_feat = CamHelper::create_feature((*feat), landmark);
+    tc->dingdong("[Time-Cam] slam_update - converting landmark");
 
     // Get the Jacobian for this feature
+    tc->dingdong("[Time-Cam] slam_update - getting jacobian");
     CamLinSys L = CamHelper::get_feature_jacobian_full(state, cam_feat, db_unused, imu_poses);
+    tc->dingdong("[Time-Cam] slam_update - getting jacobian");
 
     // make sure if we have linear system with >0 measurements
     if (L.res.size() < 2) {
@@ -373,7 +386,9 @@ void UpdaterCamera::slam_update(V_Feature &vec_features, DB_ptr db_unused) {
     int cam_id = (int)(*feat)->timestamps.begin()->first;
     if (Chi.at(cam_id)->Chi2Check(state, L.Hx_order, H_xf, L.res, L.R)) {
       // 5. With all good SLAM features update the state
+      tc->dingdong("[Time-Cam] slam_update - update state");
       StateHelper::EKFUpdate(state, L.Hx_order, H_xf, L.res, L.R, "CAM");
+      tc->dingdong("[Time-Cam] slam_update - update state");
     } else {
       // case fail return to database
       //      CamHelper::copy_to_db(db_unused, (*feat));

@@ -103,6 +103,9 @@ struct OptionsCamera {
   /// Will half the resolution all tracking image
   bool downsample = false;
 
+  /// Threads our front-end should try to use (opencv uses this also)
+  int num_opencv_threads = 4;
+
   /// The number of points we should extract and track in *each* image frame. This highly effects the computation required for tracking.
   int n_pts = 150;
 

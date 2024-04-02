@@ -77,6 +77,11 @@ SystemManager::SystemManager(shared_ptr<OptionsEstimator> op, shared_ptr<Simulat
   // Average interpolation order and cloning frequency
   avg_order = make_shared<STAT>();
   avg_freq = make_shared<STAT>();
+  
+  // This will globally set the thread count we will use
+  // -1 will reset to the system default threading (usually the num of cores)
+  cv::setNumThreads(state->op->cam->num_opencv_threads);
+  cv::setRNGSeed(0);
 }
 
 bool SystemManager::feed_measurement_imu(const ov_core::ImuData &imu) {
