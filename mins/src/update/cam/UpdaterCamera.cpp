@@ -216,9 +216,9 @@ void UpdaterCamera::try_update(int cam_id) {
   tc->dingdong("[Time-Cam] SLAM init");
 
   // cleanup used features.
-  tc->dingdong("[Time-Cam] DB clan up");
+  tc->dingdong("[Time-Cam] DB clean up");
   CamHelper::cleanup_features(state, msckf, db_unused, msckf_used, trackFEATS.at(cam_id), trackDATABASE.at(cam_id));
-  tc->dingdong("[Time-Cam] DB clan up");
+  tc->dingdong("[Time-Cam] DB clean up");
   tc->counter++;
 
   if (state->op->cam->time_analysis)

@@ -81,8 +81,12 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
   if (sys->state->op->cam->enabled) {
     pub_cam_msckf = nh->advertise<sensor_msgs::PointCloud2>("/mins/cam/msckf", 2);
     PRINT1("Publishing: %s\n", pub_cam_msckf.getTopic().c_str());
+    pub_cam_num_msckf = nh->advertise<std_msgs::Int16>("/mins/cam/num_msckf", 2);
+    PRINT1("Publishing: %s\n", pub_cam_num_msckf.getTopic().c_str());
     pub_cam_slam = nh->advertise<sensor_msgs::PointCloud2>("/mins/cam/slam", 2);
     PRINT1("Publishing: %s\n", pub_cam_msckf.getTopic().c_str());
+    pub_cam_num_slam = nh->advertise<std_msgs::Int16>("/mins/cam/num_slam", 2);
+    PRINT1("Publishing: %s\n", pub_cam_num_slam.getTopic().c_str());
     for (int i = 0; i < op->est->cam->max_n; i++) {
       image_transport::ImageTransport it(*nh); // Our tracking image
       pub_cam_image.push_back(it.advertise("/mins/cam" + to_string(i) + "/track_img", 2));
@@ -346,7 +350,7 @@ void ROSPublisher::publish_cam_images(int cam_id) {
 void ROSPublisher::publish_cam_features() {
 
   // Check if we have subscribers
-  if (pub_cam_msckf.getNumSubscribers() == 0 && pub_cam_slam.getNumSubscribers() == 0)
+  if (pub_cam_msckf.getNumSubscribers() == 0 && pub_cam_slam.getNumSubscribers() == 0 && pub_cam_num_msckf.getNumSubscribers() == 0 && pub_cam_num_slam.getNumSubscribers() == 0)
     return;
 
   // Get our good MSCKF features
@@ -354,10 +358,18 @@ void ROSPublisher::publish_cam_features() {
   sensor_msgs::PointCloud2 cloud = ROSHelper::ToPointcloud(feats_msckf, op->est->frame_global);
   pub_cam_msckf.publish(cloud);
 
+  std_msgs::Int16 num_msckf;
+  num_msckf.data = (int) feats_msckf.size();
+  pub_cam_num_msckf.publish(num_msckf);
+
   // Get our good SLAM features
   vector<Vector3d> feats_slam = sys->state->get_features_SLAM();
   sensor_msgs::PointCloud2 cloud_SLAM = ROSHelper::ToPointcloud(feats_slam, op->est->frame_global);
   pub_cam_slam.publish(cloud_SLAM);
+
+  std_msgs::Int16 num_slam;
+  num_slam.data = (int) feats_slam.size();
+  pub_cam_num_slam.publish(num_slam);
 }
 
 void ROSPublisher::publish_gps(GPSData gps, bool isGeodetic) {
