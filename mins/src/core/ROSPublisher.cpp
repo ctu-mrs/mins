@@ -87,6 +87,8 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
     PRINT1("Publishing: %s\n", pub_cam_msckf.getTopic().c_str());
     pub_cam_num_slam = nh->advertise<std_msgs::Int16>("/mins/cam/num_slam", 2);
     PRINT1("Publishing: %s\n", pub_cam_num_slam.getTopic().c_str());
+    pub_cam_num_tracks = nh->advertise<std_msgs::Int16>("/mins/cam/num_tracks", 2);
+    PRINT1("Publishing: %s\n", pub_cam_num_tracks.getTopic().c_str());
     for (int i = 0; i < op->est->cam->max_n; i++) {
       image_transport::ImageTransport it(*nh); // Our tracking image
       pub_cam_image.push_back(it.advertise("/mins/cam" + to_string(i) + "/track_img", 2));
@@ -370,6 +372,12 @@ void ROSPublisher::publish_cam_features() {
   std_msgs::Int16 num_slam;
   num_slam.data = (int) feats_slam.size();
   pub_cam_num_slam.publish(num_slam);
+
+  std_msgs::Int16 num_tracks;
+  for (int i = 0; i < op->est->cam->max_n; i++) {
+  num_tracks.data += (int) sys->up_cam->get_num_tracks(i);
+  }
+  pub_cam_num_tracks.publish(num_tracks);
 }
 
 void ROSPublisher::publish_gps(GPSData gps, bool isGeodetic) {

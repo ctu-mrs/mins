@@ -70,6 +70,8 @@ public:
   /// return images used in last update for visualization
   cv::Mat get_track_img(int cam_id);
 
+  size_t get_num_tracks(int cam_id);
+
   /// Chi information
   map<int, shared_ptr<UpdaterStatistics>> Chi;
 

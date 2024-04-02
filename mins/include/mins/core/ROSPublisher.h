@@ -109,7 +109,7 @@ private:
   // Our publishers
   std::shared_ptr<tf::TransformBroadcaster> mTfBr;
   std::vector<image_transport::Publisher> pub_cam_image;
-  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_num_msckf, pub_cam_slam, pub_cam_num_slam;
+  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_num_msckf, pub_cam_slam, pub_cam_num_slam, pub_cam_num_tracks;
   std::vector<ros::Publisher> pub_gps_pose, pub_gps_path, pub_vicon_pose, pub_vicon_path, pub_lidar_cloud, pub_lidar_map;
 
   // For path viz

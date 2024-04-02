@@ -236,6 +236,10 @@ vector<Eigen::Vector3d> UpdaterCamera::get_used_msckf() {
   return msckf_used_cp;
 }
 
+size_t UpdaterCamera::get_num_tracks(int cam_id) {
+  return trackFEATS.at(cam_id)->get_num_tracks();
+}
+
 cv::Mat UpdaterCamera::get_track_img(int cam_id) {
 
   // Build an id-list of what features we should highlight (i.e. SLAM)
