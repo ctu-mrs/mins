@@ -55,6 +55,7 @@
 #include "mins/update/lidar/ikd_Tree.h"
 #include "mins/update/vicon/ViconTypes.h"
 #include "mins/utils/Print_Logger.h"
+#include "mins/utils/TimeChecker.h"
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <pcl/common/transforms.h>
@@ -76,6 +77,8 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
   PRINT1("Publishing: %s\n", pub_imu_odom.getTopic().c_str());
   pub_imu_path = nh->advertise<nav_msgs::Path>("/mins/imu/path", 2);
   PRINT1("Publishing: %s\n", pub_imu_path.getTopic().c_str());
+  pub_timing_imu = nh->advertise<std_msgs::Float64>("/mins/imu/timing", 2);
+  PRINT1("Publishing: %s\n", pub_timing_imu.getTopic().c_str());
 
   // CAM
   if (sys->state->op->cam->enabled) {
@@ -88,6 +91,8 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
     pub_cam_num_slam = nh->advertise<std_msgs::Int16>("/mins/cam/num_slam", 2);
     PRINT1("Publishing: %s\n", pub_cam_num_slam.getTopic().c_str());
     pub_cam_num_tracks = nh->advertise<std_msgs::Int16>("/mins/cam/num_tracks", 2);
+    PRINT1("Publishing: %s\n", pub_timing_cam.getTopic().c_str());
+    pub_timing_cam = nh->advertise<std_msgs::Float64>("/mins/cam/timing", 2);
     PRINT1("Publishing: %s\n", pub_cam_num_tracks.getTopic().c_str());
     for (int i = 0; i < op->est->cam->max_n; i++) {
       image_transport::ImageTransport it(*nh); // Our tracking image
@@ -134,6 +139,8 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
       pub_lidar_map.back() = nh->advertise<sensor_msgs::PointCloud2>("/mins/lidar" + to_string(i) + "/map", 2);
       PRINT1("Publishing: %s\n", pub_lidar_map.back().getTopic().c_str());
     }
+    PRINT1("Publishing: %s\n", pub_timing_lidar.getTopic().c_str());
+    pub_timing_lidar = nh->advertise<std_msgs::Float64>("/mins/lidar/timing", 2);
   }
 }
 
@@ -152,6 +159,8 @@ void ROSPublisher::visualize() {
   // publish lidar
   if (sys->state->op->lidar->enabled)
     publish_lidar_map();
+
+  publish_timing();
 }
 
 void ROSPublisher::publish_imu() {
@@ -379,6 +388,27 @@ void ROSPublisher::publish_cam_features() {
   }
   pub_cam_num_tracks.publish(num_tracks);
 }
+
+void ROSPublisher::publish_timing() {
+
+  std_msgs::Float64 timing_imu;
+  timing_imu.data = sys->tc_sensors->get_timing("IMU");
+  pub_timing_imu.publish(timing_imu);
+
+  if (sys->state->op->cam->enabled) {
+    std_msgs::Float64 timing_cam;
+    timing_cam.data = sys->tc_sensors->get_timing("CAM");
+    pub_timing_cam.publish(timing_cam);
+  }
+
+  if (sys->state->op->lidar->enabled) {
+    std_msgs::Float64 timing_lidar;
+    timing_lidar.data = sys->tc_sensors->get_timing("LDR");
+    pub_timing_lidar.publish(timing_lidar);
+  }
+
+}
+
 
 void ROSPublisher::publish_gps(GPSData gps, bool isGeodetic) {
 

@@ -192,6 +192,23 @@ public:
     }
   }
 
+  /// return timing analysis of an unique name
+  double get_timing(std::string name, bool in_sec = false) {
+    if (names.find(name) == names.end()) {
+      PRINT3("[TimeChecker] Cannot print total time of this name(%s) because it never recorded!\n", name.c_str());
+      return 0.0;
+    }
+    if (counter == 0) {
+      PRINT1("[Timechecker] %s requested to print with counter 0!. Set 1.\n", names.begin()->first.c_str());
+      counter++;
+    }
+    if (in_sec) {
+      return names.at(name).total_t / counter;
+    } else {
+      return names.at(name).total_t / counter * 1000;
+    }
+  }
+
   /// print total time the name
   void print_total(string name, bool in_sec = false) {
     if (names.find(name) == names.end()) {

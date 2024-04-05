@@ -30,6 +30,7 @@
 
 #include "geometry_msgs/PoseStamped.h"
 #include "std_msgs/Int16.h"
+#include "std_msgs/Float64.h"
 #include "ros/ros.h"
 #include <image_transport/image_transport.h>
 #include <memory>
@@ -58,6 +59,7 @@ struct ViconData;
 class State;
 struct LiDARData;
 struct Options;
+class TimeChecker;
 class ROSPublisher {
 public:
   /// ROS message publisher
@@ -91,6 +93,9 @@ private:
   /// Publish current camera features
   void publish_cam_features();
 
+  /// Publish timing of used sensors
+  void publish_timing();
+
   /// Publish current lidar map
   void publish_lidar_map();
 
@@ -109,7 +114,7 @@ private:
   // Our publishers
   std::shared_ptr<tf::TransformBroadcaster> mTfBr;
   std::vector<image_transport::Publisher> pub_cam_image;
-  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_num_msckf, pub_cam_slam, pub_cam_num_slam, pub_cam_num_tracks;
+  ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_num_msckf, pub_cam_slam, pub_cam_num_slam, pub_cam_num_tracks, pub_timing_cam, pub_timing_imu, pub_timing_lidar;
   std::vector<ros::Publisher> pub_gps_pose, pub_gps_path, pub_vicon_pose, pub_vicon_path, pub_lidar_cloud, pub_lidar_map;
 
   // For path viz
