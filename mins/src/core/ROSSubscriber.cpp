@@ -100,6 +100,7 @@ ROSSubscriber::ROSSubscriber(std::shared_ptr<ros::NodeHandle> nh, std::shared_pt
   if (op->lidar->enabled) {
     for (int i = 0; i < op->lidar->max_n; i++) {
       subs.push_back(nh->subscribe<PointCloud2>(op->lidar->topic.at(i), 2, boost::bind(&ROSSubscriber::callback_lidar, this, _1, i)));
+      subs.push_back(nh->subscribe<PointCloud2>(op->lidar->topic_map_input.at(i), 2, boost::bind(&ROSSubscriber::callback_lidar_map_input, this, _1, i)));
       PRINT2("subscribing to LiDAR: %s\n", op->lidar->topic.at(i).c_str());
     }
   }
@@ -189,4 +190,12 @@ void ROSSubscriber::callback_lidar(const PointCloud2ConstPtr &msg, int lidar_id)
   sys->feed_measurement_lidar(data);
   pub->publish_lidar_cloud(data);
   PRINT1(YELLOW "[SUB] LiDAR measurement: %.3f|%d\n" RESET, (double)msg->header.stamp.toSec() / 1000, lidar_id);
+}
+
+void ROSSubscriber::callback_lidar_map_input(const PointCloud2ConstPtr &msg, int lidar_id) {
+  // convert into correct format & send it to our system
+  std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> data = ROSHelper::rosPC2pclPC(msg, lidar_id);
+  sys->feed_measurement_lidar_map_input(data);
+  pub->publish_lidar_map_input_cloud(data);
+  PRINT1(YELLOW "[SUB] LiDAR map input: %.3f|%d\n" RESET, (double)msg->header.stamp.toSec() / 1000, lidar_id);
 }

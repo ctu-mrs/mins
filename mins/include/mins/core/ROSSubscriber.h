@@ -63,6 +63,7 @@ public:
 
   /// Callback for LiDAR
   void callback_lidar(const PointCloud2ConstPtr &msg, int lidar_id);
+  void callback_lidar_map_input(const PointCloud2ConstPtr &msg, int lidar_id);
 
   /// Callback for monocular camera (image, compressed image)
   void callback_monocular_I(const ImageConstPtr &msg, int cam_id);

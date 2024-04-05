@@ -88,6 +88,7 @@ public:
 
   /// LiDAR measurement feeder
   void feed_measurement_lidar(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
+  void feed_measurement_lidar_map_input(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
   /**
    * @brief After the run has ended, print results
    */

@@ -50,6 +50,7 @@ struct OptionsLidar {
 
   /// rostopic to subscribe
   std::vector<std::string> topic;
+  std::vector<std::string> topic_map_input;
 
   /// Chi threshold for outlier rejection
   double chi2_mult = 1;

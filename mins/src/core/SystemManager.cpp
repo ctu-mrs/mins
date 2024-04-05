@@ -189,6 +189,13 @@ void SystemManager::feed_measurement_lidar(std::shared_ptr<pcl::PointCloud<pcl::
   state->initialized ? tc_sensors->dong("LDR") : void();
 }
 
+void SystemManager::feed_measurement_lidar_map_input(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar) {
+  if (!state->op->lidar->enabled)
+    return;
+  // Feed measurement & try update
+  up_ldr->feed_measurement_map_input(lidar);
+}
+
 void SystemManager::feed_measurement_gps(GPSData gps, bool isGeodetic) {
   if (!state->op->gps->enabled || !state->initialized)
     return;

@@ -135,6 +135,9 @@ ROSPublisher::ROSPublisher(shared_ptr<ros::NodeHandle> nh, shared_ptr<SystemMana
       pub_lidar_cloud.emplace_back();
       pub_lidar_cloud.back() = nh->advertise<sensor_msgs::PointCloud2>("/mins/lidar" + to_string(i) + "/points", 2);
       PRINT1("Publishing: %s\n", pub_lidar_cloud.back().getTopic().c_str());
+      pub_lidar_map_input_cloud.emplace_back();
+      pub_lidar_map_input_cloud.back() = nh->advertise<sensor_msgs::PointCloud2>("/mins/lidar" + to_string(i) + "/map_input_points", 2);
+      PRINT1("Publishing: %s\n", pub_lidar_map_input_cloud.back().getTopic().c_str());
       pub_lidar_map.emplace_back();
       pub_lidar_map.back() = nh->advertise<sensor_msgs::PointCloud2>("/mins/lidar" + to_string(i) + "/map", 2);
       PRINT1("Publishing: %s\n", pub_lidar_map.back().getTopic().c_str());
@@ -483,6 +486,14 @@ void ROSPublisher::publish_lidar_cloud(std::shared_ptr<pcl::PointCloud<pcl::Poin
   output.header.frame_id = op->est->frame_lidar + lidar->header.frame_id;
   output.header.stamp = ros::Time::now();
   pub_lidar_cloud.at(stoi(lidar->header.frame_id)).publish(output);
+}
+
+void ROSPublisher::publish_lidar_map_input_cloud(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar) {
+  sensor_msgs::PointCloud2 output;
+  pcl::toROSMsg(*lidar, output);
+  output.header.frame_id = op->est->frame_lidar + lidar->header.frame_id;
+  output.header.stamp = ros::Time::now();
+  pub_lidar_map_input_cloud.at(stoi(lidar->header.frame_id)).publish(output);
 }
 
 void ROSPublisher::publish_lidar_map() {

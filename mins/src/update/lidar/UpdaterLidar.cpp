@@ -94,13 +94,6 @@ void UpdaterLidar::feed_measurement(std::shared_ptr<pcl::PointCloud<pcl::PointXY
     /* PRINT2("raw downsampling took: %.2f ms\n", ms_double.count()); */
     /* PRINT2("raw points after downsampling: %d\n", (*it)->size()); */
 
-    // Initialize ikd map if not initialized OR scan registration failed more than 1 second
-    if (!ikd_data.at((*it)->id)->tree->initialized() || ikd_data.at((*it)->id)->last_up_time + 1 < (*it)->time) {
-      LidarHelper::init_map_local((*it), ikd_data.at((*it)->id), state->op->lidar);
-      it = stack_lidar_raw.erase(it);
-      PRINT3("initializing ikd map\n");
-      continue;
-    }
 
     // All good, move this to stack to be processed.
     stack_lidar_new.push_back((*it));
@@ -111,6 +104,23 @@ void UpdaterLidar::feed_measurement(std::shared_ptr<pcl::PointCloud<pcl::PointXY
   erase_invalid_dataset();
 }
 
+void UpdaterLidar::feed_measurement_map_input(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar) {
+  // Record first ever measurement time to set up reference time (ref. LidarTypes.h)
+  FT < 0 ? FT = (double)lidar->header.stamp / 1000 : double();
+
+  // record timestamps
+  int id = stoi(lidar->header.frame_id);
+  double lidar_t = (double)lidar->header.stamp / 1000;
+
+  // Append the raw pointcloud
+  lidar_map_input = std::make_shared<LiDARData>(lidar_t, FT, id, lidar, state->op->lidar->max_range, state->op->lidar->min_range);
+
+    if (!ikd_data.at(id)->tree->initialized() || ikd_data.at(id)->last_up_time + 1 < lidar_t) {
+      LidarHelper::init_map_local(lidar_map_input, ikd_data.at(id), state->op->lidar);
+      PRINT3("initializing ikd map\n");
+    }
+
+}
 void UpdaterLidar::try_update() {
   // Loop through stacked lidar and process them
   for (auto lidar = stack_lidar_new.begin(); lidar != stack_lidar_new.end();) {
@@ -127,7 +137,7 @@ void UpdaterLidar::try_update() {
 
   // Register used pointcloud in the map
   for (auto lidar = stack_lidar_used.begin(); lidar != stack_lidar_used.end();) {
-    LidarHelper::register_scan(state, *lidar, ikd_data.at((*lidar)->id));
+    LidarHelper::register_scan(state, lidar_map_input, ikd_data.at((*lidar)->id));
     lidar = stack_lidar_used.erase(lidar);
   }
 }

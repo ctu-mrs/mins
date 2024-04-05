@@ -49,6 +49,7 @@ public:
 
   /// Get lidar measurement
   void feed_measurement(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
+  void feed_measurement_map_input(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
 
   /// Try update with available measurements
   void try_update();
@@ -81,6 +82,7 @@ private:
   vector<std::shared_ptr<LiDARData>> stack_lidar_raw;  // raw lidar stack that not been processed yet
   vector<std::shared_ptr<LiDARData>> stack_lidar_new;  // new lidar points that will be used for EKF update
   vector<std::shared_ptr<LiDARData>> stack_lidar_used; // used lidar points that will be registered to map
+  std::shared_ptr<LiDARData> lidar_map_input;          // lidar points that will be registered to map
 
   /// First measurement time. Used for reference time (ref. LidarTypes.h)
   double FT = -1;

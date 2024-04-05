@@ -85,6 +85,7 @@ public:
 
   /// Publish lidar point cloud
   void publish_lidar_cloud(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
+  void publish_lidar_map_input_cloud(std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> lidar);
 
 private:
   /// Publish the current state
@@ -115,7 +116,7 @@ private:
   std::shared_ptr<tf::TransformBroadcaster> mTfBr;
   std::vector<image_transport::Publisher> pub_cam_image;
   ros::Publisher pub_imu_pose, pub_imu_odom, pub_imu_path, pub_cam_msckf, pub_cam_num_msckf, pub_cam_slam, pub_cam_num_slam, pub_cam_num_tracks, pub_timing_cam, pub_timing_imu, pub_timing_lidar;
-  std::vector<ros::Publisher> pub_gps_pose, pub_gps_path, pub_vicon_pose, pub_vicon_path, pub_lidar_cloud, pub_lidar_map;
+  std::vector<ros::Publisher> pub_gps_pose, pub_gps_path, pub_vicon_pose, pub_vicon_path, pub_lidar_cloud, pub_lidar_map_input_cloud, pub_lidar_map;
 
   // For path viz
   unsigned int seq_imu = 0;

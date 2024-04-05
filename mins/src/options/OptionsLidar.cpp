@@ -108,6 +108,11 @@ void mins::OptionsLidar::load_i(const std::shared_ptr<ov_core::YamlParser> &pars
   parser->parse_external(f, "lidar" + std::to_string(i), "topic", lidar_topic);
   lidar_topic = "/" + uav_name + "/" + lidar_topic;
   topic.push_back(lidar_topic);
+
+  std::string lidar_map_input_topic;
+  parser->parse_external(f, "lidar" + std::to_string(i), "map_input_topic", lidar_map_input_topic);
+  lidar_map_input_topic = "/" + uav_name + "/" + lidar_map_input_topic;
+  topic_map_input.push_back(lidar_map_input_topic);
 }
 
 void mins::OptionsLidar::print() {
@@ -144,4 +149,5 @@ void mins::OptionsLidar::print_i(int i) {
   PRINT1("\t\t\t- [%6.3f, %6.3f, %6.3f, %6.3f]\n", R(2), R(5), R(8), p(2));
   PRINT1("\t\t\t- [ 0.000,  0.000,  0.000,  1.000]\n");
   PRINT1("\t\t- topic: %s\n", topic.at(i).c_str());
+  PRINT1("\t\t- topic_map_input: %s\n", topic_map_input.at(i).c_str());
 }
