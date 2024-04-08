@@ -25,6 +25,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
 #include "mins/core/ROSPublisher.h"
 #include "mins/core/ROSHelper.h"
 #include "mins/core/SystemManager.h"
@@ -354,7 +356,10 @@ void ROSPublisher::publish_cam_images(int cam_id) {
     // Create our message & Publish
     std_msgs::Header header;
     header.stamp = ros::Time::now();
-    pub_cam_image.at(i).publish(cv_bridge::CvImage(header, "bgr8", sys->up_cam->get_track_img(i)).toImageMsg());
+
+    auto img_tmp = sys->up_cam->get_track_img(i);
+    cv::resize(img_tmp, img_tmp, cv::Size(), 0.5, 0.5);
+    pub_cam_image.at(i).publish(cv_bridge::CvImage(header, "bgr8", img_tmp).toImageMsg());
   }
 }
 
